@@ -4,7 +4,7 @@
     Author: crywink / Samuel#0440
     Modified by Ender / Ender#2345
     I'm by no means an amazing scripter so if you find anything that could be imrpvoed feel free to do so.
-
+  Whacky code. I recommend  using https://github.com/Epix-Incorporated/Adonis-Plugins/blob/master/Server/Server-DiscordWebhookLogs.lua
 --]]
 
 
