@@ -38,7 +38,7 @@ return function()
 	
 	local PluginSettings = {
 		CallCooldown = 60 :: number,
-		Reasons = {"Exploiting","Spamming","Chat bypassing","Inappropriate behavior","Announcement","Misc"},
+		Reasons = {"Exploiting","Spamming","Chat bypassing","Inappropriate behavior","Misc"},
 		BaseURL = "https://webhook.lewisakura.moe" :: string, --// This will be whatever proxy you use without / obviously
 		Webhook = "/api/webhooks/channel_id/token" :: string, --// Webhook goes here
 		APIKey = "" :: string,
