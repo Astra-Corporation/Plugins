@@ -25,6 +25,9 @@ return function()
 	
 
 	--[==[
+		As of right now i don't know of any good ways to have a custom UI without editing the
+		MainModule. To make this work you have to grab the MainModule and put CallMenu.lua in
+		the MainModule -> Client -> UI -> Default
 		Rename the module "Server-Call" if you're adding it in the Loader -> Config -> Plugins
 		Leave it named as whatever you want if you put it in the MainModule -> Server -> Plugins
 		
