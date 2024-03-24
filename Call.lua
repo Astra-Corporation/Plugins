@@ -14,43 +14,64 @@ return function()
 	local HTTP = server.HTTP;
 	local Anti = server.Anti;
 
-	local TextService = service.TextService
-	local MarketplaceService = service.MarketplaceService
-	
-	local PrivateServerId = game.PrivateServerId
-	local PrivateServerOwnerId = game.PrivateServerOwnerId
-
-	local Asset = { Name = "Failed to fetch Place Info" }
-	local placeId = game.PlaceId
-	
-
 	--[==[
 		As of right now i don't know of any good ways to have a custom UI without editing the
 		MainModule. To make this work you have to grab the MainModule and put CallMenu.lua in
 		the MainModule -> Client -> UI -> Default
+	
 		Rename the module "Server-Call" if you're adding it in the Loader -> Config -> Plugins
 		Leave it named as whatever you want if you put it in the MainModule -> Server -> Plugins
 		
 		You can expect a lot of old and bad code here. A lot of the code is from a very long time ago
 		I have rewritten some of it but a lot of things here could still be done better.
 		~ Eastern
+			
 	]==]
-	
+
 	local PluginSettings = {
 		CallCooldown = 60 :: number,
 		Reasons = {"Exploiting","Spamming","Chat bypassing","Inappropriate behavior","Misc"},
 		BaseURL = "https://webhook.lewisakura.moe" :: string, --// This will be whatever proxy you use without / obviously
-		Webhook = "/api/webhooks/channel_id/token" :: string, --// Webhook goes here
+		Webhook = "/api/webhooks/CHANNEL/TOKEN" :: string, --// Webhook goes here
 		APIKey = "" :: string,
 		--// This can be left blank unless
 		--// You are using a custom backend 
 		--// That requires api key
-	}
-	
+	}	
+
+	local TextService = service.TextService
+	local MarketplaceService = service.MarketplaceService
+
+	local PrivateServerId = game.PrivateServerId
+	local PrivateServerOwnerId = game.PrivateServerOwnerId
+
+	local Asset = { Name = "Failed to fetch Place Info" }
+	local placeId = game.PlaceId
+
+
+
+	local getServerType = function()
+		if game:GetService("RunService"):IsStudio() then
+			return "Studio"
+		else
+			if PrivateServerId ~= "" then
+				if PrivateServerOwnerId ~= 0 then
+					return "Private"
+				else
+					return "Reserved"
+				end
+			else
+				return "Standard"
+			end
+		end
+	end;
+
+
+
 	pcall(function()
 		Asset = MarketplaceService:GetProductInfo(game.PlaceId)
 	end)
-	
+
 	server.Commands.Call = {
 		Prefix = Settings.PlayerPrefix,
 		Commands = { "call", "report" },
@@ -121,22 +142,22 @@ return function()
 			return Remote.MakeGui(plr, "Output", {
 				Message = "Player you reported is not in the server!",
 			})
-			
+
 		elseif Admin.GetLevel(reportedplr) > 1 then
 			Anti.Detected(plr,"log",`Attempted to report an moderator: {reportedplr.Name}`)
 			return Remote.MakeGui(plr, "Output", {
 				Message = "No.",
 			})
-			
+
 		elseif plr.Name and plr.Name == reportedplr.Name then
 			return server.Remote.MakeGui(plr, "Output", {
 				Message = "You cannot report yourself!",
 			})
-			
+
 		end
 
 		local EmbedData = {}
-		
+
 		EmbedData.title = Asset.Name or "Something went wrong!"
 		EmbedData.url = "https://www.roblox.com/games/" .. placeId .. "/redirect"
 		EmbedData.description = "["
@@ -174,7 +195,7 @@ return function()
 			{ name = "Time Reported", value = "<t:" .. tostring(os.time()) .. ":R>", inline = true },
 			{
 				name = "Server type",
-				value = tostring(Functions.getServerType() or "Something failed when fetching the server type"),
+				value = tostring(getServerType() or "Something failed when fetching the server type"),
 				inline = true,
 			},
 		}
@@ -200,9 +221,9 @@ return function()
 		--	'<font size="29">From ' .. plr.Name .. "</font><br/>" .. reportedplr.Name .. " - " .. tostring(args[2]),
 		--	game.JobId
 		--)
-		
+
 		local request
-		
+
 		local success, msg = pcall(function()
 			request = service.HttpService:RequestAsync({
 				Url = `{PluginSettings.BaseURL}{PluginSettings.Webhook}`,
@@ -232,7 +253,7 @@ return function()
 				Message = "Something went wrong while sending your call!",
 			})
 		end
-		
+
 		Routine(function()
 			cooldowndata[plr.UserId] = true
 			task.wait(PluginSettings.CallCooldown)
