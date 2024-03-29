@@ -1,4 +1,17 @@
 --!nonstrict
+--[[
+	Author: EasternBloxxer, TheDiamondWolf1960
+	Description: Adonis ModCall plugin
+
+	You can expect a lot of old and bad code here. A lot of the code is from a very long time ago
+	I have rewritten some of it but a lot of things here could still be done better.
+
+	Usage:
+	Place this in a ModuleScript under Adonis_Loader > Config > Plugins and named "Server-Call"
+	or leave it as Call when putting it in MainModule -> Server -> Plugins
+
+	Put the CallMenuTheme.rbxmx located in the same repo in Loader -> Config -> Themes
+--]]
 
 server = nil
 service = nil
@@ -13,18 +26,6 @@ return function()
 	local Variables = server.Variables;
 	local HTTP = server.HTTP;
 	local Anti = server.Anti;
-
-	--[==[
-		Rename the module "Server-Call" if you're adding it in the Loader -> Config -> Plugins
-		Leave it named as whatever you want if you put it in the MainModule -> Server -> Plugins
-		
-		Put the CallMenuTheme.rbxmx located in the same repo in Loader -> Config -> Themes
-	
-		You can expect a lot of old and bad code here. A lot of the code is from a very long time ago
-		I have rewritten some of it but a lot of things here could still be done better.
-		~ Eastern
-			
-	]==]
 
 	local PluginSettings = {
 		CallCooldown = 60 :: number,
