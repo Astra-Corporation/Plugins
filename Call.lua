@@ -15,13 +15,11 @@ return function()
 	local Anti = server.Anti;
 
 	--[==[
-		As of right now i don't know of any good ways to have a custom UI without editing the
-		MainModule. To make this work you have to grab the MainModule and put CallMenu.lua in
-		the MainModule -> Client -> UI -> Default
-	
 		Rename the module "Server-Call" if you're adding it in the Loader -> Config -> Plugins
 		Leave it named as whatever you want if you put it in the MainModule -> Server -> Plugins
 		
+		Put the CallMenuTheme.rbxmx located in the same repo in Loader -> Config -> Themes
+	
 		You can expect a lot of old and bad code here. A lot of the code is from a very long time ago
 		I have rewritten some of it but a lot of things here could still be done better.
 		~ Eastern
@@ -38,7 +36,6 @@ return function()
 		--// You are using a custom backend 
 		--// That requires api key
 	}	
-
 	local TextService = service.TextService
 	local MarketplaceService = service.MarketplaceService
 
@@ -98,7 +95,7 @@ return function()
 				end
 			end
 
-			Remote.MakeGui(plr, "CallMenu", { Reasons = PluginSettings.Reasons, Players = extras })
+			Remote.MakeGui(plr, "CallMenu", { Reasons = PluginSettings.Reasons, Players = extras }, {Desktop = "Astra"; Mobile = "Astra"})
 		end,
 	};
 
