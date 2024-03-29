@@ -1,0 +1,179 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<Meta name="ExplicitAutoJoints">true</Meta>
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBX7D82C7F658B646479F69924518AF138F">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">Astra</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="ModuleScript" referent="RBX81D62AD94777460B8DAA50EB5F64D6E2">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">CallMenu</string>
+				<string name="ScriptGuid">{62DAFA39-060C-4FAF-8375-788F4695E0CC}</string>
+				<ProtectedString name="Source"><![CDATA[client = nil
+service = nil
+
+return function(data)
+
+	local gTable
+
+	local window = client.UI.Make("Window", {
+		Name = "Call",
+		Title = "Call",
+		Size = { 400, 300 },
+		AllowMultiple = false,
+	})
+	local playerData = client.Remote.Get("PlayerData")
+	local chatMod = client.Remote.Get(
+		"Setting",
+		{ "Prefix", "SpecialPrefix", "BatchKey", "AnyPrefix", "DonorCommands", "DonorCapes", "PlayerPrefix" }
+	)
+	local settingsData = client.Remote.Get("AllSettings")
+	local player = ""
+	local reason = ""
+	local extranotes = "No extra notes provided."
+	local ranPlayers = {}
+	local Reasons = data.Reasons or {"No reasons specified!"}
+	local Players  = data.Players or {"Server"}
+	local player = ""
+	local reason = ""
+	local canclicksend = true
+	local ranPlayers = {}
+
+	local rframe = window:Add("ScrollingFrame", {
+
+		Size = UDim2.new(1, -10, 1, -10),
+		Position = UDim2.new(0, 5, 0, 5),
+		BackgroundTransparency = 0,
+		BackgroundColor3 = Color3.new(0.207843, 0.207843, 0.207843),
+	})
+	--// My hope is that this code is so awful I'm never allowed to write UI code again.
+	rframe:Add("TextLabel", {
+		Text = "  Player: ",
+		Size = UDim2.new(1, -10, 0, 30),
+		Position = UDim2.new(0, 5, 0, 7),
+		BackgroundTransparency = 1,
+
+		TextXAlignment = "Center",
+
+})
+rframe:Add("Dropdown",{
+	Size = UDim2.new(1, -10, 0, 30),
+	Position = UDim2.new(0, 5,0.012, 30),
+	BackgroundTransparency = 0,
+	TextAlignment = "Center",
+	TextYAlignment = "Center",
+	NoArrow = false,
+
+	Options = (function()
+		return Players
+	end)(),
+	OnSelect = function(selection)
+		player = selection
+	end,
+})
+
+rframe:Add("TextLabel", {
+	Text = "  Reason: ",
+	Size = UDim2.new(1, -10, 0, 30),
+	Position = UDim2.new(0, 4, 0, 63),
+	BackgroundTransparency = 1,
+	TextXAlignment = "Center",
+})
+
+rframe:Add("Dropdown",{
+	Size = UDim2.new(1, -10, 0, 30),
+	Position = UDim2.new(0, 5,0, 93),
+	BackgroundTransparency = 0,
+	TextAlignment = "Center",
+	TextYAlignment = "Center",
+	NoArrow = false,
+
+	Options = (function()
+		return Reasons
+	end)(),
+	OnSelect = function(selection)
+		reason = selection
+	end,
+})
+
+rframe:Add("TextBox", {
+	Text = "",
+	PlaceholderText = "Extra Notes",
+	Size = UDim2.new(1, -10, 0.317, 0),
+	Position = UDim2.new(0, 5, 0,136),
+	BackgroundTransparency = 0,
+	ClearTextOnFocus = false,
+	TextXAlignment = "Center",
+	TextWrapped = true;
+	TextChanged = function(text, FocusLost, new)
+		extranotes = text
+	end,
+})
+
+rframe:Add("TextButton", {
+
+	Text = "Send Report",
+	Position = UDim2.new(0, 5, 0, 225),
+	Size = UDim2.new(1, -10, 0, 20),
+	OnClicked = function(button)
+		if canclicksend == false then
+			return
+		else
+			canclicksend = true
+			local split = " "
+			if player == "" and reason == "" then
+				return client.UI.Make("Hint", {
+					Message = "Please select a Player and a reason",
+				})
+			elseif player == "" then
+				return client.UI.Make("Hint", {
+					Message = "Please select a Player",
+				})
+			elseif reason == "" then
+				return client.UI.Make("Hint", {
+					Message = "Please select Reason",
+				})
+			end
+			local extranotes2 = extranotes or "No extra notes provided."
+			if reason ~= "" and player ~= "" then
+				canclicksend = false
+				client.Remote.Send("SendReport", player, reason, extranotes2)
+				window:Destroy()
+			end
+		end
+	end,
+})
+
+gTable = window.gTable
+window:Ready()
+end
+
+]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="StringValue" referent="RBXD748BB2A0C3B4F18BA253899893B3E4F">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<string name="Name">Base_Theme</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<string name="Value"><![CDATA[Default
+]]></string>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
