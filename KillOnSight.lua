@@ -1,6 +1,6 @@
 --[==[
     EasternBloxxer, 8ch_32bit
-    ADN
+    Astra Defense Network
     
     TODO: notify only onduty users of that specific subgroup and the user itself (Would require a onduty playerfinder)
     
