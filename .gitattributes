@@ -1,0 +1,8 @@
+# Basic .gitattributes for a Lua repo.
+
+*.lua linguist-language=Luau
+
+# Luadoc output
+# =============
+*.html      text diff=html
+*.css       text diff=css
