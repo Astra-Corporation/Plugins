@@ -30,8 +30,9 @@ return function()
 	local PluginSettings = {
 		CallCooldown = 60 :: number,
 		Reasons = {"Exploiting","Spamming","Chat bypassing","Inappropriate behavior","Misc"},
-		BaseURL = "https://webhook.lewisakura.moe" :: string, --// This will be whatever proxy you use without / obviously
-		Webhook = "/api/webhooks/CHANNEL/TOKEN" :: string, --// Webhook goes here
+		TextContent = ""; -- Whatever you want the non-embed text to be. This can be like a mod role or whatever. Just be sure the moderators can opt out of receiving these (i am Not evil.)
+		BaseURL = "https://webhook.lewisakura.moe", -- This will be whatever proxy you use without / obviously
+		Webhook = "/api/webhooks/CHANNEL/TOKEN", -- Webhook goes here
 		APIKey = "" :: string,
 		--// This can be left blank unless
 		--// You are using a custom backend 
@@ -210,7 +211,8 @@ return function()
 		end
 
 		local Data = {
-			["embeds"] = { EmbedData },
+			["content"] = PluginSettings.TextContent,
+			["embeds"] = { EmbedData }
 		}
 
 		--Core.CrossServer(
