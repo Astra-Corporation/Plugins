@@ -71,7 +71,6 @@ return function(data)
 							})
 						i += 1
 					end
-					print(tab)
 				elseif tab.Name == "Settings" then
 					for i, setData in ipairs(cliSettings) do
 						local label = scroller:Add("TextLabel", {
